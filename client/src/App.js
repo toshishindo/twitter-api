@@ -16,6 +16,7 @@ class App extends Component {
   callApi = async () => {
     const response = await fetch('/api/twitter');
     const body = response.json();
+    console.log(body);
 
     if (response.status !== 200) throw Error(body.message);
 
@@ -24,8 +25,14 @@ class App extends Component {
 
   renderTweets() {
     const items = this.state.response || [];
-    return items.map((item, index) =>
-        <li className="item" key={index}>{item}</li>
+    return items.map(({id, user, text, created_at, entities}) =>
+      <div className="item" key={id}>
+        <img src={user.profile_image_url} width="50" height="50" alt="" />   
+        <h3>User name: {user.name}</h3>
+        <h4>Location: {user.location}</h4>
+        <h5>{new Date(created_at).toLocaleString()}</h5>
+        {text}
+      </div>  
     );
   }
 
@@ -34,7 +41,6 @@ class App extends Component {
       <div className="App">
         <header className="App-header">
           <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to React</h1>
         </header>
         <div className="App-intro">
           {this.renderTweets()}

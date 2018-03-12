@@ -43,7 +43,7 @@ class Dashboard extends Component {
   render() {
     return (
       <div className="App-intro">
-        <a className="fetch-button waves-effect waves-light btn-large" onClick={this.fetchList}>Fetch</a>
+        {/* <a className="fetch-button waves-effect waves-light btn-large" onClick={this.fetchList}>Fetch</a> */}
         <div className="items">
           {this.renderTweets()}
         </div>

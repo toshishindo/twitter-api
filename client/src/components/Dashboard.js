@@ -1,21 +1,15 @@
 import React, { Component } from 'react';
-import fetchItems from './helper/fetchItems';
+import { connect } from 'react-redux';
+import { fetchAPI } from '../actions';
 
 
 class Dashboard extends Component {
-  state = {
-    response: [] 
-  };
 
   componentDidMount() {
-    this.fetchList();
+    this.props.fetchAPI('/api/twitter');
     
   }
 
-  fetchList = async () => {
-    const body = await fetchItems('/api/twitter');
-    this.setState({ response: body });
-  };
 
   fetchMedia(entities) {
     if (!entities.media) return;
@@ -26,7 +20,8 @@ class Dashboard extends Component {
 
 
   renderTweets() {
-    const items = this.state.response;
+    // const items = this.state.response;
+    const items = this.props.list;
     return items.map(({id, user, text, created_at, entities}) =>
       <div className="item" key={id}>
         <img src={user.profile_image_url} width="50" alt="" />   
@@ -43,7 +38,6 @@ class Dashboard extends Component {
   render() {
     return (
       <div className="App-intro">
-        {/* <a className="fetch-button waves-effect waves-light btn-large" onClick={this.fetchList}>Fetch</a> */}
         <div className="items">
           {this.renderTweets()}
         </div>
@@ -52,4 +46,8 @@ class Dashboard extends Component {
   }
 }
 
-export default Dashboard;
+function mapStateToProps({ list }) {
+  return { list };
+}
+
+export default connect(mapStateToProps, { fetchAPI })(Dashboard);

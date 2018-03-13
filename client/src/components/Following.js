@@ -1,23 +1,16 @@
 import React, { Component } from "react";
-import fetchItems from "./helper/fetchItems";
+import { connect } from 'react-redux';
+import { fetchFriends } from '../actions';
 
 class Following extends Component {
-  state = {
-    response: []
-  };
 
   componentDidMount() {
-    this.fetchList();
+    this.props.fetchFriends('/api/twitter/following');
   }
 
-  fetchList = async () => {
-    const body = await fetchItems("/api/twitter/following");
-    this.setState({ response: body.users });
-  };
-
   renderTweets() {
-    const items = this.state.response;
-    return items.map(user => (
+    const users = this.props.friends;
+    return users.map(user => (
       <div className="item" key={user.id}>
         <img src={user.profile_image_url} width="50" alt="" />
         <h4>Name: {user.name}</h4>
@@ -34,10 +27,16 @@ class Following extends Component {
     return (
       <div className="App-intro">
         <h2>Following</h2>
-        <div className="items">{this.renderTweets()}</div>
+        <div className="items">
+          {this.renderTweets()}
+        </div>
       </div>
     );
   }
 }
 
-export default Following;
+function mapStateToProps({ friends }) {
+  return { friends };
+}
+
+export default connect(mapStateToProps, { fetchFriends })(Following);

@@ -13,7 +13,7 @@ const Header = () => {
           </li>
           <li>
             <Link to={"/"} className="waves-effect waves-light btn">
-              Timelineeee
+              Timeline
             </Link>
           </li>
         </ul>

@@ -1,12 +1,11 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { fetchAPI } from '../actions';
-
+import * as actions from '../actions';
 
 class Dashboard extends Component {
 
   componentDidMount() {
-    this.props.fetchAPI('/api/twitter');
+    this.props.fetchTweets('/api/twitter');
     
   }
 
@@ -20,8 +19,8 @@ class Dashboard extends Component {
 
 
   renderTweets() {
-    // const items = this.state.response;
     const items = this.props.list;
+    console.log(items)
     return items.map(({id, user, text, created_at, entities}) =>
       <div className="item" key={id}>
         <img src={user.profile_image_url} width="50" alt="" />   
@@ -50,4 +49,4 @@ function mapStateToProps({ list }) {
   return { list };
 }
 
-export default connect(mapStateToProps, { fetchAPI })(Dashboard);
+export default connect(mapStateToProps, actions)(Dashboard);

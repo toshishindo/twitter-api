@@ -10,6 +10,7 @@ class Following extends Component {
 
   renderTweets() {
     const users = this.props.friends;
+    console.log(users);
     return users.map(user => (
       <div className="item" key={user.id}>
         <img src={user.profile_image_url} width="50" alt="" />

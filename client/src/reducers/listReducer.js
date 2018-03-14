@@ -1,8 +1,8 @@
-import { FETCH_ITEMS } from '../actions/types';
+import { FETCH_TWEETS_SUCCESS } from '../actions/types';
 
 export default function (state = [], action) {
   switch (action.type) {
-    case FETCH_ITEMS:
+    case FETCH_TWEETS_SUCCESS:
       return action.payload;
     default:
       return state;  

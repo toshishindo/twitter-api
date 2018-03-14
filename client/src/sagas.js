@@ -1,20 +1,29 @@
-import { fork, call, take } from 'redux-saga/effects'
+import { call, put, takeLatest } from 'redux-saga/effects';
 import fetchItems from './helper/fetchItems';
-import { FETCH_ITEMS } from '../src/actions/types'
+import { FETCH_TWEETS, FETCH_FRIENDS, FETCH_TWEETS_SUCCESS, FETCH_FRIENDS_SUCCESS } from '../src/actions/types';
 
-function* fetchList(action) {
-  while (true) {
-    const action = yield take(FETCH_ITEMS);
-    console.log('action: ' + action);
-    const { payload, error } = yield call(fetchItems, action.payload);
-    if (payload && !error) {
-      console.log(payload);
-    } else {
-      console.log(error);
-    }
+function* fetchTweetsSaga(action) {
+  try {
+    console.log(action);
+    const { data } = yield call(fetchItems, action.payload);
+    yield put({ type: FETCH_TWEETS_SUCCESS, payload: data });
+  } catch(error) {
+    console.log(error);
   }
 }
 
+function* fetchFriendsSaga(action) {
+  try {
+    console.log(action);
+    const { data } = yield call(fetchItems, action.payload);
+    yield put({ type: FETCH_FRIENDS_SUCCESS, payload: data.users })
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+
 export default function* rootSaga() {
-  yield fork(fetchList);
+  yield takeLatest(FETCH_TWEETS, fetchTweetsSaga);
+  yield takeLatest(FETCH_FRIENDS, fetchFriendsSaga);
 }

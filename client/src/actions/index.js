@@ -1,14 +1,15 @@
-import { FETCH_ITEMS, FETCH_FRIENDS } from './types';
-import fetchItems from '../helper/fetchItems';
+import { FETCH_TWEETS, FETCH_FRIENDS } from './types';
 
-export const fetchAPI = (path) => async dispatch => {
-  const res = await fetchItems(path);
-
-  dispatch ({type: FETCH_ITEMS, payload: res})
+export const fetchTweets = (path) =>  {
+  return {
+    type: FETCH_TWEETS,
+    payload: path
+  };
 };
 
-export const fetchFriends = (path) => async dispatch => {
-  const res = await fetchItems(path);
-
-  dispatch ({type: FETCH_FRIENDS, payload: res.users})
+export const fetchFriends = (path) => {
+  return {
+    type: FETCH_FRIENDS,
+    payload: path
+  };
 };
